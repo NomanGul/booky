@@ -8,15 +8,16 @@ export default class Header extends Component {
       <Toolbar
         leftElement={!backBtn ? "menu" : "keyboard-backspace"}
         onLeftElementPress={() => (!backBtn ? menuToggle() : goBack())}
-        centerElement="Searchable"
+        centerElement="Booky"
         searchable={{
-          autoFocus: true,
-          placeholder: "Search"
+          autoFocus: true
         }}
         onPress={() => console.log("hedpresss")}
         style={{
           container: {
-            backgroundColor: "#ffff00"
+            backgroundColor: "#ffff00",
+            elevation: 0.3,
+            shadowOpacity: 0.3
           },
           titleText: {
             alignSelf: "center",
