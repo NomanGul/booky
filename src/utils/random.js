@@ -14,7 +14,6 @@ const randomQuery = () => {
     "MERN",
     "Web Designing",
     "Web Development",
-    "SPA",
     "Open Source",
     "Redux",
     "Redux Saga"
