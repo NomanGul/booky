@@ -1,6 +1,6 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { width, height } from "../../utils/dimensions";
+import { width } from "../../utils/dimensions";
 
 const ListFooter = ({ loadMore }) => {
   if (!loadMore) return null;
@@ -10,8 +10,7 @@ const ListFooter = ({ loadMore }) => {
       style={{
         position: "relative",
         width: width,
-        height: height,
-        paddingVertical: 10,
+        paddingVertical: 5,
         marginTop: 10,
         marginBottom: 10
       }}
