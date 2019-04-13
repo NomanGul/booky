@@ -56,3 +56,4 @@ buck-out/
 *.jsbundle
 src/configs/axios.js
 src/constant/API_KEY.js
+android/gradle.properties
