@@ -1,25 +1,11 @@
 import React from "react";
 import { View, ActivityIndicator } from "react-native";
-import { COLORS } from "../../constant/colors";
+import { styles } from "./styles";
 
 const BooksIndicator = () => {
   return (
-    <View
-      style={{
-        alignItems: "center",
-        justifyContent: "center",
-        flex: 1,
-        backgroundColor: COLORS.APP_BACKGROUND
-      }}
-    >
-      <ActivityIndicator
-        style={{
-          alignItems: "center",
-          justifyContent: "center"
-        }}
-        size="large"
-        color="#00F"
-      />
+    <View style={styles.booksIndicatorContainer}>
+      <ActivityIndicator style={styles.indicator} size="large" color="#00F" />
     </View>
   );
 };
