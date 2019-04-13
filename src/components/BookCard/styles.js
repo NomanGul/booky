@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { width, height } from "../../utils/dimensions";
+import { COLORS } from "../../constant/colors";
 
 export const styles = StyleSheet.create({
   bookCardContainer: {
@@ -15,7 +16,7 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 2,
     elevation: 5,
-    backgroundColor: "#ff0"
+    backgroundColor: COLORS.APP_BACKGROUND
   },
   img: {
     resizeMode: "stretch",

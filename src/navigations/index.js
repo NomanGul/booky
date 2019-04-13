@@ -2,6 +2,7 @@ import React from "react";
 import { StatusBar } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import { Home, BooksList, BookDetails } from "../screens";
+import { COLORS } from "../constant/colors";
 
 const AppStackNavigator = createStackNavigator(
   {
@@ -22,7 +23,10 @@ const AppContainer = createAppContainer(AppStackNavigator);
 const AppNavigator = () => {
   return (
     <>
-      <StatusBar backgroundColor="#ffff00" barStyle="dark-content" />
+      <StatusBar
+        backgroundColor={COLORS.APP_BACKGROUND}
+        barStyle="dark-content"
+      />
       <AppContainer />
     </>
   );

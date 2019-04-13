@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Toolbar } from "react-native-material-ui";
+import { COLORS } from "../../constant/colors";
 
 export default class Header extends Component {
   render() {
@@ -19,7 +20,7 @@ export default class Header extends Component {
         onPress={() => console.log("hedpresss")}
         style={{
           container: {
-            backgroundColor: "#ffff00",
+            backgroundColor: COLORS.APP_BACKGROUND,
             elevation: 0.3,
             shadowOpacity: 0.3
           },
