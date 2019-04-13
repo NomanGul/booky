@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Toolbar } from "react-native-material-ui";
-import { COLORS } from "../../constant/colors";
+import { toolBarStyles } from "./styles";
 
 export default class Header extends Component {
   render() {
@@ -18,23 +18,7 @@ export default class Header extends Component {
           onChangeText: text => query(text)
         }}
         onPress={() => console.log("hedpresss")}
-        style={{
-          container: {
-            backgroundColor: COLORS.APP_BACKGROUND,
-            elevation: 0.3,
-            shadowOpacity: 0.3
-          },
-          titleText: {
-            alignSelf: "center",
-            color: "#454545"
-          },
-          leftElement: {
-            color: "#454545"
-          },
-          rightElement: {
-            color: "#454545"
-          }
-        }}
+        style={toolBarStyles}
       />
     );
   }

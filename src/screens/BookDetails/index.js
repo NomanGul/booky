@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import Header from "../../components/Header";
 import { axios } from "../../configs/axios";
+import { styles } from "./styles";
 
 export default class BookDetails extends Component {
   state = {
@@ -35,13 +36,7 @@ export default class BookDetails extends Component {
       <View>
         <Header backBtn goBack={() => goBack()} />
         <Text> BookData </Text>
-        <View
-          style={{
-            justifyContent: "space-around",
-            flexDirection: "row",
-            flexWrap: "wrap"
-          }}
-        >
+        <View style={styles.indicator}>
           {loader ? (
             <ActivityIndicator size="large" color="#0000ff" />
           ) : bookData.volumeInfo !== undefined ? (
