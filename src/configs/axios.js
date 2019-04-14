@@ -8,6 +8,8 @@ export const axios = Axios.create({
     "X-Android-Cert": "228a451245483f2cfa8b8831b055d91e169f375b"
   },
   params: {
-    key: API_KEY
+    key: API_KEY,
+    maxResults: 15,
+    projection: "lite"
   }
 });
