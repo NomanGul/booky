@@ -54,3 +54,6 @@ buck-out/
 
 # Bundle artifact
 *.jsbundle
+src/configs/axios.js
+src/constant/API_KEY.js
+android/gradle.properties
