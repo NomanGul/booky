@@ -1,86 +1,167 @@
-import React, { Component } from "react";
-import {
-  Text,
-  View,
-  ActivityIndicator,
-  Image,
-  TouchableOpacity
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, FlatList } from "react-native";
+import { connect } from "react-redux";
 import Header from "../../components/Header";
-import { axios } from "../../configs/axios";
+import { height } from "../../utils/dimensions";
+import BookCard from "../../components/BookCard";
+import ListFooter from "../../components/ListFooter";
+import {
+  BooksSaga,
+  MoreBooksSaga,
+  QueryBooksSaga,
+  MoreQueryBooksSaga
+} from "../../store/actions/books.actions";
+import ErrorAlert from "../../components/ErrorAlert";
+import NoResultsFound from "../../components/NoResultsFound";
+import BooksIndicator from "../../components/BooksIndicator";
+import { styles } from "./styles";
 
-export default class BooksList extends Component {
-  state = {
-    booksData: [],
-    loader: false
-  };
+const BooksList = props => {
+  const [firstMount, setFirstMount] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [queryText, setQueryText] = useState("");
+  const [startIndex, setStartIndex] = useState(16);
 
-  componentDidMount = () => {
-    // this.getBooks();
-  };
+  useEffect(() => {
+    getBooks();
+  }, []);
 
-  getBooks = async () => {
-    this.setState({ loader: true });
+  const getBooks = async () => {
+    const { dispatchBooksSaga } = props;
     try {
-      const callBooksAPI = await axios.get(
-        `volumes?q=design books&maxResults=5&projection=lite`
-      );
-      this.setState({ booksData: callBooksAPI.data.items, loader: false });
-      console.log(callBooksAPI);
-      // alert(JSON.stringify(callBooksAPI.data, null, 2));
+      await dispatchBooksSaga();
     } catch (error) {
       console.log(error);
     }
   };
 
-  render() {
-    const { booksData, loader } = this.state;
-    const {
-      navigation: { navigate }
-    } = this.props;
-    return (
-      <View
-        style={{ width: "100%", height: "100%", backgroundColor: "#ffff00" }}
-      >
-        <Header menuToggle={() => console.log("toogggle")} />
-        <Text> BooksList </Text>
-        <View
-          style={{
-            justifyContent: "space-around",
-            flexDirection: "row",
-            flexWrap: "wrap"
-          }}
-        >
-          {loader ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : (
-            booksData.map(book => {
-              return (
-                <TouchableOpacity
-                  key={book.id}
-                  onPress={() => navigate("BookDetails", { bookId: book.id })}
-                  style={{
-                    // flex: 1,
-                    width: "39%",
-                    height: "20%",
-                    margin: 1,
-                    aspectRatio: 1
-                  }}
-                >
-                  <Image
-                    source={{ uri: book.volumeInfo.imageLinks.thumbnail }}
-                    style={{
-                      resizeMode: "contain",
-                      width: "100%",
-                      height: "100%"
-                    }}
-                  />
-                </TouchableOpacity>
-              );
-            })
-          )}
+  const handleLoadMoreBooks = async () => {
+    const { dispatchMoreBooksSaga, dispatchMoreQueryBooksSaga } = props;
+    try {
+      if (queryText) {
+        await dispatchMoreQueryBooksSaga(queryText, startIndex);
+        return setStartIndex(startIndex + 15);
+      }
+      return dispatchMoreBooksSaga(queryText);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onRefresh = async () => {
+    firstMount && setFirstMount(false);
+    setRefreshing(true);
+    await getBooks();
+    return setRefreshing(false);
+  };
+
+  const onQuery = async text => {
+    const { dispatchQueryBooksSaga } = props;
+    // await setStartIndex(1);
+    await setQueryText(text);
+    if (text) await dispatchQueryBooksSaga(text);
+  };
+
+  const closeSearch = () => {
+    setQueryText("");
+    setStartIndex(1);
+  };
+
+  const getItemLayout = (_, index) => ({
+    length: height * 0.26,
+    offset: height * 0.26 * index,
+    index
+  });
+
+  const {
+    navigation: { navigate },
+    booksData,
+    loading,
+    loadingMore,
+    queryBooksData,
+    loadingQuery,
+    error
+  } = props;
+
+  const queryBooksDataCond =
+    queryText && queryBooksData.items && queryBooksData.items.length >= 15
+      ? true
+      : false;
+
+  console.log("queryBooksDataCond@@@>>>>", queryBooksDataCond);
+
+  return (
+    <View style={styles.booksListContainer}>
+      <Header
+        menuToggle={() => console.log("toogggle")}
+        query={text => onQuery(text)}
+        WillCloseSearch={closeSearch}
+      />
+      {error ? (
+        ErrorAlert(JSON.stringify(error, null, 2))
+      ) : queryText &&
+        queryBooksData.items &&
+        queryBooksData.items.length < 15 &&
+        !loadingQuery ? (
+        <NoResultsFound />
+      ) : (loading && firstMount) || loadingQuery ? (
+        <BooksIndicator />
+      ) : (
+        <View>
+          <FlatList
+            contentContainerStyle={styles.itemsFlatList}
+            numColumns={3}
+            data={queryBooksDataCond ? queryBooksData.items : booksData.items}
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            renderItem={({ item }) => (
+              <BookCard book={item} navigate={navigate} />
+            )}
+            keyExtractor={(_, index) => index.toString()}
+            onEndReached={handleLoadMoreBooks}
+            onEndReachedThreshold={0.7}
+            initialNumToRender={9}
+            ListFooterComponent={<ListFooter loadMore={loadingMore} />}
+            getItemLayout={getItemLayout}
+          />
         </View>
-      </View>
-    );
-  }
-}
+      )}
+    </View>
+  );
+};
+
+const mapStateToProps = state => {
+  const {
+    booksReducer: {
+      booksData,
+      loading,
+      loadingMore,
+      queryBooksData,
+      loadingQuery,
+      error
+    }
+  } = state;
+  return {
+    booksData,
+    loading,
+    loadingMore,
+    queryBooksData,
+    loadingQuery,
+    error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchBooksSaga: () => dispatch(BooksSaga()),
+    dispatchMoreBooksSaga: () => dispatch(MoreBooksSaga()),
+    dispatchQueryBooksSaga: queryText => dispatch(QueryBooksSaga(queryText)),
+    dispatchMoreQueryBooksSaga: (queryText, startIndex) =>
+      dispatch(MoreQueryBooksSaga(queryText, startIndex))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(BooksList);
