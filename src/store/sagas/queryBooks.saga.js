@@ -7,11 +7,9 @@ import {
 
 const queryBooks = async ({ queryText }) => {
   // console.log("action>>>***", action);
-  const req = await axios.get(
-    `volumes?q=${queryText}+intitle:${queryText}&maxResults=15&projection=lite`
-  );
+  const req = await axios.get(`volumes?q=${queryText}+intitle:${queryText}`);
   console.log("fromSagaQuery  >>>> ****", req.data);
-  return req.data.items;
+  return req.data;
 };
 
 export default function* queryBooksSaga(action) {
@@ -19,6 +17,7 @@ export default function* queryBooksSaga(action) {
     const data = yield call(queryBooks, action);
     yield put({ type: QUERY_BOOKS_FETCH_SUCCEEDED, data });
   } catch (e) {
-    yield put({ type: BOOKS_FETCH_FAILED, message: e.message });
+    console.log("error>>>", e);
+    yield put({ type: BOOKS_FETCH_FAILED, message: e });
   }
 }

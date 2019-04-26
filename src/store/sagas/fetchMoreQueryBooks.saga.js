@@ -7,12 +7,11 @@ import {
 
 const fetchMoreQueryBooks = async ({ queryText, startIndex }) => {
   console.log("startIndex>>>LLL", startIndex);
-  const startIndexCond = startIndex !== 1 ? `startIndex=${startIndex}` : "";
   const req = await axios.get(
-    `volumes?q=${queryText}+intitle:${queryText}&maxResults=15&${startIndexCond}&projection=lite`
+    `volumes?q=${queryText}+intitle:${queryText}&startIndex=${startIndex}`
   );
   console.log("fromFetchMoreSaga  >>>> ****", req.data);
-  return req.data.items;
+  return req.data;
 };
 
 export default function* fetchMoreQueryBooksSaga(action) {
@@ -20,6 +19,7 @@ export default function* fetchMoreQueryBooksSaga(action) {
     const data = yield call(fetchMoreQueryBooks, action);
     yield put({ type: MORE_QUERY_BOOKS_FETCH_SUCCEEDED, data });
   } catch (e) {
-    yield put({ type: BOOKS_FETCH_FAILED, message: e.message });
+    console.log("error>>>", e);
+    yield put({ type: BOOKS_FETCH_FAILED, message: e });
   }
 }

@@ -7,11 +7,9 @@ import {
 import randomQuery from "../../utils/random";
 
 const fetchMoreBooks = async () => {
-  const req = await axios.get(
-    `volumes?q=${randomQuery()}&maxResults=15&projection=lite`
-  );
+  const req = await axios.get(`volumes?q=${randomQuery()}`);
   console.log("fromFetchMoreSaga  >>>> ****", req.data);
-  return req.data.items;
+  return req.data;
 };
 
 export default function* fetchMoreBooksSaga() {
@@ -19,6 +17,7 @@ export default function* fetchMoreBooksSaga() {
     const data = yield call(fetchMoreBooks);
     yield put({ type: MORE_BOOKS_FETCH_SUCCEEDED, data });
   } catch (e) {
-    yield put({ type: BOOKS_FETCH_FAILED, message: e.message });
+    console.log("error>>>", e);
+    yield put({ type: BOOKS_FETCH_FAILED, message: e });
   }
 }

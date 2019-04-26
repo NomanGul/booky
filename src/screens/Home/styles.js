@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "../../constant/colors";
 import { width, height } from "../../utils/dimensions";
+import { useSpring } from "react-spring";
 
 export const styles = StyleSheet.create({
   homeContainer: {
@@ -35,3 +36,30 @@ export const styles = StyleSheet.create({
     color: "#fff"
   }
 });
+
+export const animateSubline = () =>
+  useSpring({
+    fontSize: width * 0.1,
+    fontFamily: "Roboto",
+    marginTop: height * -0.2,
+    color: "#de4040",
+    fontWeight: "700",
+    left: 0,
+    from: { left: 100 }
+  });
+
+export const animateImg = () =>
+  useSpring({
+    right: 0,
+    width: width * 0.2,
+    height: height * 0.3,
+    from: { right: 100, height: height * 0.1 },
+    aspectRatio: 1
+  });
+
+export const animateBtnContainer = () =>
+  useSpring({
+    bottom: 0,
+    height: height * 0.08,
+    from: { bottom: -height * 0.3 }
+  });
