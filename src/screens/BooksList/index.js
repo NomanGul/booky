@@ -93,7 +93,7 @@ const BooksList = props => {
   return (
     <View style={styles.booksListContainer}>
       <Header
-        menuToggle={() => console.log("toogggle")}
+        menuToggle={() => props.navigation.openDrawer()}
         query={text => onQuery(text)}
         WillCloseSearch={closeSearch}
       />
