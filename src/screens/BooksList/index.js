@@ -88,8 +88,6 @@ const BooksList = props => {
       ? true
       : false;
 
-  console.log("queryBooksDataCond@@@>>>>", queryBooksDataCond);
-
   return (
     <View style={styles.booksListContainer}>
       <Header
@@ -98,7 +96,7 @@ const BooksList = props => {
         WillCloseSearch={closeSearch}
       />
       {error ? (
-        ErrorAlert(JSON.stringify(error, null, 2))
+        ErrorAlert(error)
       ) : queryText &&
         queryBooksData.items &&
         queryBooksData.items.length < 15 &&
