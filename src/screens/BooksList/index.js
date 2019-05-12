@@ -94,6 +94,7 @@ const BooksList = props => {
         menuToggle={() => props.navigation.openDrawer()}
         query={text => onQuery(text)}
         WillCloseSearch={closeSearch}
+        hasSearch
       />
       {error ? (
         ErrorAlert(error)
