@@ -1,4 +1,5 @@
 import { COLORS } from "../../constant/colors";
+import { width } from "../../utils/dimensions";
 
 export const toolBarStyles = {
   container: {
@@ -6,8 +7,11 @@ export const toolBarStyles = {
     elevation: 0.3,
     shadowOpacity: 0.3
   },
+  centerElementContainer: {
+    position: "relative",
+    left: width * 0.3
+  },
   titleText: {
-    alignSelf: "center",
     color: "#454545"
   },
   leftElement: {

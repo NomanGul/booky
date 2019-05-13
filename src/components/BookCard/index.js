@@ -10,7 +10,7 @@ const BookCard = ({ book, navigate }) => {
       activeOpacity={0.9}
       onPress={() => {
         return navigate("BookDetails", {
-          bookId: book.id
+          book
         });
       }}
       style={styles.bookCardContainer}

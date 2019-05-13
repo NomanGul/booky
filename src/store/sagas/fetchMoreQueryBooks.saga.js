@@ -8,7 +8,7 @@ import {
 const fetchMoreQueryBooks = async ({ queryText, startIndex }) => {
   console.log("startIndex>>>LLL", startIndex);
   const req = await axios.get(
-    `volumes?q=${queryText}+intitle:${queryText}&startIndex=${startIndex}`
+    `volumes?q=${queryText}+intitle:${queryText}&startIndex=${startIndex}&projection=full`
   );
   console.log("fromFetchMoreSaga  >>>> ****", req.data);
   return req.data;

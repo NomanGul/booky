@@ -1,20 +1,15 @@
 import React from "react";
 import { StatusBar } from "react-native";
 import { createStackNavigator, createAppContainer } from "react-navigation";
-import { Home, BooksList, BookDetails } from "../screens";
+import DrawerNavigations from "./drawerNavigations";
 import { COLORS } from "../constant/colors";
 
 const AppStackNavigator = createStackNavigator(
   {
-    Home,
-    BooksList,
-    BookDetails
+    Screens: DrawerNavigations
   },
   {
-    initialRouteName: "Home",
-    defaultNavigationOptions: {
-      header: null
-    }
+    headerMode: "none"
   }
 );
 

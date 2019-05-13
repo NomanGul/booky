@@ -7,7 +7,9 @@ import {
 
 const queryBooks = async ({ queryText }) => {
   // console.log("action>>>***", action);
-  const req = await axios.get(`volumes?q=${queryText}+intitle:${queryText}`);
+  const req = await axios.get(
+    `volumes?q=${queryText}+intitle:${queryText}&projection=full`
+  );
   console.log("fromSagaQuery  >>>> ****", req.data);
   return req.data;
 };

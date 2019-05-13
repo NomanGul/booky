@@ -7,7 +7,7 @@ import {
 import randomQuery from "../../utils/random";
 
 const fetchBooks = async () => {
-  const req = await axios.get(`volumes?q=${randomQuery()}`);
+  const req = await axios.get(`volumes?q=${randomQuery()}&projection=full`);
   console.log("fromSaga  >>>> ****", req.data);
   return req.data;
 };

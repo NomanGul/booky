@@ -88,17 +88,16 @@ const BooksList = props => {
       ? true
       : false;
 
-  console.log("queryBooksDataCond@@@>>>>", queryBooksDataCond);
-
   return (
     <View style={styles.booksListContainer}>
       <Header
-        menuToggle={() => console.log("toogggle")}
+        menuToggle={() => props.navigation.openDrawer()}
         query={text => onQuery(text)}
         WillCloseSearch={closeSearch}
+        hasSearch
       />
       {error ? (
-        ErrorAlert(JSON.stringify(error, null, 2))
+        ErrorAlert(error)
       ) : queryText &&
         queryBooksData.items &&
         queryBooksData.items.length < 15 &&
