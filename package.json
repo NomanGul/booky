@@ -22,7 +22,7 @@
     "redux-saga": "^1.0.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.0",
+    "@babel/core": "^7.5.5",
     "@babel/runtime": "^7.4.2",
     "@react-native-community/eslint-config": "^0.0.3",
     "babel-jest": "^24.5.0",
